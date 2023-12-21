@@ -15,16 +15,8 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member memberA = new Member();
-            memberA.setId(1L);
-            memberA.setName("memberA");
-
-            Member memberB = new Member();
-            memberB.setId(2L);
-            memberB.setName("memberB");
-
-            em.persist(memberA);
-            em.persist(memberB);
+            Member findMember = em.find(Member.class, 1L);
+            findMember.setName("memberJPA");
 
             tx.commit();
         } catch (Exception e) {
