@@ -15,9 +15,16 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member findMember = em.find(Member.class, 1L);
+            Member memberA = new Member();
+            memberA.setId(1L);
+            memberA.setName("memberA");
 
-            em.remove(findMember);
+            Member memberB = new Member();
+            memberB.setId(2L);
+            memberB.setName("memberB");
+
+            em.persist(memberA);
+            em.persist(memberB);
 
             tx.commit();
         } catch (Exception e) {
