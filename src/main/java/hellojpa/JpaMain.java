@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -15,8 +16,14 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member findMember = em.find(Member.class, 1L);
-            findMember.setName("memberJPA");
+            List<Member> findMembers = em.createQuery("select m from Member as m", Member.class)
+                    .setFirstResult(0)
+                    .setMaxResults(2) // 0번부터 2개 가져와
+                    .getResultList();
+
+            for (Member findMember : findMembers) {
+                System.out.println("Member = " + findMember.getName());
+            }
 
             tx.commit();
         } catch (Exception e) {
