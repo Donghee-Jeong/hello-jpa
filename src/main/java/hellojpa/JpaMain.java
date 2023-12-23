@@ -16,15 +16,12 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member1 = new Member(150L, "A");
-            Member member2 = new Member(160L, "B");
-            em.persist(member1);
-            em.persist(member2);
-            em.flush();
+            Member member = em.find(Member.class, 1L);
+            member.setName("memberA");
+            em.detach(member);
             System.out.println("=========");
-            throw new Exception();
 
-//            tx.commit();
+            tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
