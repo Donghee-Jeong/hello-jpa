@@ -1,11 +1,6 @@
 package hellojpa;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.util.Date;
-import java.util.UUID;
 
 @Entity
 public class Member {
@@ -44,7 +39,8 @@ public class Member {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void changeTeam(Team team) {
         this.team = team;
+        team.getMembers().add(this);
     }
 }
