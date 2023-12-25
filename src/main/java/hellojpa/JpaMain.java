@@ -1,5 +1,7 @@
 package hellojpa;
 
+import hellojpa.extend.Movie;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -16,20 +18,18 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("Team A");
-            em.persist(team);
+            Movie movie = new Movie();
+            movie.setActor("송강호");
+            movie.setDirector("봉준호");
+            movie.setName("괴물");
+            movie.setPrice(20000);
 
-            Member member = new Member();
-            member.setName("Member A");
-            member.changeTeam(team);
-            em.persist(member);
+            em.persist(movie);
+            em.flush();
+            em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
-            for (Member m : members) {
-                System.out.println("teamMember.getName() = " + m.getName());
-            }
+            Movie findMovie = em.find(Movie.class, 1L);
+            System.out.println("findMovie.getName() = " + findMovie.getName());
 
             tx.commit();
         } catch (Exception e) {
