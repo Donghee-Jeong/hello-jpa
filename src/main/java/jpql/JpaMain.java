@@ -13,16 +13,22 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("memberA");
-            member.setAge(10);
+            for (int i = 0; i < 100; i++) {
+                Member member = new Member();
+                member.setUsername("member" + i);
+                member.setAge(i);
+                em.persist(member);
+            }
 
-            em.persist(member);
-
-            List<MemberDto> dtos = em.createQuery("select new jpql.MemberDto(m.username, m.age) from Member m", MemberDto.class)
+            List<Member> members = em.createQuery("select m from Member m order by m.age desc ", Member.class)
+                    .setFirstResult(1)
+                    .setMaxResults(10)
                     .getResultList();
 
-            System.out.println("dtos.get(0).getUsername() = " + dtos.get(0).getUsername());
+            System.out.println("members = " + members.size());
+            for (Member m : members) {
+                System.out.println("m = " + m);
+            }
 
             tx.commit();
         } catch (Exception e) {
