@@ -22,20 +22,19 @@ public class JpaMain {
             Team team = new Team();
             team.setName("팀1");
             em.persist(team);
-            
+
             Member member = new Member();
             member.setCreateBy("me");
             member.setCreateDate(LocalDateTime.now());
             member.setName("홍길동");
             member.setTeam(team);
             em.persist(member);
-            
+
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-            Team findMemberTeam = findMember.getTeam();
-            System.out.println("findMemberTeam.getName() = " + findMemberTeam.getName());
+            List<Member> members = em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
 
             tx.commit();
         } catch (Exception e) {
