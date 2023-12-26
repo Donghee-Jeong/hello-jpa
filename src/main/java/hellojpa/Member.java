@@ -13,7 +13,7 @@ public class Member extends BaseEntity {
     @Column(name = "username")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
@@ -54,5 +54,9 @@ public class Member extends BaseEntity {
 
     public void setLocker(Locker locker) {
         this.locker = locker;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
