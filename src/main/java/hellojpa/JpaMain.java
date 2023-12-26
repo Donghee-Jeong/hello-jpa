@@ -19,26 +19,26 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("팀1");
-            em.persist(team);
+            Parent parent = new Parent();
 
-            Member member = new Member();
-            member.setCreateBy("me");
-            member.setCreateDate(LocalDateTime.now());
-            member.setName("홍길동");
-            member.setTeam(team);
-            em.persist(member);
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
 
             em.flush();
             em.clear();
 
-            List<Member> members = em.createQuery("select m from Member m", Member.class)
-                    .getResultList();
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChilds().remove(0);
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
