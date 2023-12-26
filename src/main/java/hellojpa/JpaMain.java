@@ -20,6 +20,13 @@ public class JpaMain {
 
         try {
             Parent parent = new Parent();
+            parent.setName("parent");
+            parent.setHomeAddress(new Address("city", "street", "zipcode"));
+
+            parent.getFavoriteFoods().add("치킨");
+            parent.getFavoriteFoods().add("피자");
+
+            parent.getAddressHistory().add(new Address("oldct", "oldst", "oldzc"));
 
             em.persist(parent);
 
