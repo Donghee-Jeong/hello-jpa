@@ -1,8 +1,7 @@
 package hellojpa;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 public class Parent {
@@ -12,31 +11,20 @@ public class Parent {
 
     private String name;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Child> childs = new ArrayList<>();
+    @Embedded
+    private Period period;
+    @Embedded
+    private Address homeAddress;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city",
+            column = @Column(name = "work_city")),
+            @AttributeOverride(name = "street",
+            column = @Column(name = "work_street")),
+            @AttributeOverride(name = "zipcode",
+            column = @Column(name = "work_zipcode"))
+    })
+    private Address workAddress;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void addChild(Child child) {
-        childs.add(child);
-        child.setParent(this);
-    }
-
-    public List<Child> getChilds() {
-        return childs;
-    }
 }
