@@ -37,13 +37,20 @@ public class JpaMain {
             member3.setTeam(teamB);
             em.persist(member3);
 
-            em.flush();
-            em.clear();
-
             int resultCount = em.createQuery("update Member m set m.age = 20")
                     .executeUpdate();
 
             System.out.println("resultCount = " + resultCount);
+
+            // 벌크연산 후 영속성 컨텍스트 초기화 안됨 확인
+            System.out.println("member1 age : " + member1.getAge());
+            Member findMember = em.find(Member.class, member1.getId());
+            System.out.println("findMember.getAge() = " + findMember.getAge());
+
+            // 벌크연산 후 영속성 컨텍스트 초기화를 해야한다.
+            em.clear();
+            Member findMember2 = em.find(Member.class, member1.getId());
+            System.out.println("findMember2.getAge() = " + findMember2.getAge());
 
             tx.commit();
         } catch (Exception e) {
